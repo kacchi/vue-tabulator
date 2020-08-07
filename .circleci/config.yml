@@ -14,8 +14,14 @@ aliases:
   - &circleci_node
     - image: circleci/node:12
 
+defaults: &defaults
+  docker:
+    - image: circleci/node:12
+  working_directory: ~/vue-tabulator
+
 jobs:
   test_build:
+    <<: *defaults
     steps:
       - checkout
       - restore_cache: *restore_cache
@@ -30,18 +36,28 @@ jobs:
             - '*'
 
   lint_test:
+    <<: *defaults
     steps:
+      - attach_workspace:
+          at: ~/vue-tabulator
       - run:
           name: Run Lint
           command: yarn lint
 
   unit_test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/vue-tabulator
       - run:
           name: Run Unit Tests
           command: yarn test:unit
 
   e2e_test:
+    <<: *defaults
     steps:
+      - attach_workspace:
+          at: ~/vue-tabulator
       - run:
           name: Run E2E
           command: yarn  test:e2e
