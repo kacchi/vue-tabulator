@@ -63,7 +63,8 @@
   },
   "peerDependencies": {
     "tabulator-tables": "^4.4.1",
-    "vue": "^2.6.8"
+    "vue": "^2.6.8",
+    "vue-template-compiler": "^2.6.8"
   },
   "devDependencies": {
     "@types/jest": "^24.0.15",
@@ -93,7 +94,6 @@
     "sass-loader": "^8.0.0",
     "ts-jest": "^24.0.2",
     "typescript": "~3.5.3",
-    "vue-template-compiler": "^2.6.8",
     "vuepress": "^1.0.2",
     "yorkie": "^2.0.0"
   },
