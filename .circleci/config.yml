@@ -1,0 +1,63 @@
+version: 2.1
+
+aliases:
+  - &restore_cache
+    name: Restore cache
+    key: v3-cache-{{ checksum "yarn.lock" }}
+
+  - &save_cache
+    name: Save cache
+    paths:
+      - ~/.cache
+    key: v3-cache-{{ checksum "yarn.lock" }}
+
+  - &circleci_node
+    - image: circleci/node:12
+
+jobs:
+  test_build:
+    steps:
+      - checkout
+      - restore_cache: *restore_cache
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile
+
+      - save_cache: *save_cache
+      - persist_to_workspace:
+          root: '.'
+          paths:
+            - '*'
+
+  lint_test:
+    steps:
+      - run:
+          name: Run Lint
+          command: yarn lint
+
+  unit_test:
+      - run:
+          name: Run Unit Tests
+          command: yarn test:unit
+
+  e2e_test:
+    steps:
+      - run:
+          name: Run E2E
+          command: yarn  test:e2e
+
+workflows:
+  version: 2
+
+  branch-workflow:
+    jobs:
+      - test_build
+      - lint_test:
+          requires:
+            - test_build
+      - unit_test:
+          requires:
+            - test_build
+      - e2e_test:
+          requires:
+            - test_build
