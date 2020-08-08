@@ -61,6 +61,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/vue-tabulator
+      - run: cypress install
       - run:
           name: Run E2E
           command: yarn  test:e2e
