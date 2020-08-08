@@ -9,14 +9,14 @@ aliases:
     name: Save cache
     paths:
       - ~/.cache
+      - ~/.cache/Cypress
     key: v3-cache-{{ checksum "yarn.lock" }}
 
   - &circleci_node
     - image: circleci/node:10.15.1
 
 defaults: &defaults
-  docker:
-    - image: circleci/node:10.15.1
+  docker: *circleci_node
   working_directory: ~/vue-tabulator
 
 jobs:
